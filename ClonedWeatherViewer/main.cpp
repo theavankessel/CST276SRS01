@@ -20,10 +20,10 @@ int main()
         weather_station.measure();
     }
 
-    /*std::cout <<
+    std::cout <<
         "Average: " << weather_station.getWeatherViewerStatistics() << "\n" <<
         "Current: " << weather_station.getWeatherViewerCurrent()    << "\n" <<
-        std::endl;*/
+        std::endl;
 
     return 0;
 }

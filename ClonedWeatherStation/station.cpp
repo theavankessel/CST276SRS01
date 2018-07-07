@@ -6,10 +6,12 @@
 #include "humidity.h"
 #include "pressure.h"
 #include "station.h"
+#include "statistics.h"
+#include "current.h"
 
 namespace WeatherStation
 {
-    Station::Station() noexcept/*: weather_viewer_statistics_{ *this }, weather_viewer_current_{ *this }*/
+    Station::Station() noexcept: weather_viewer_statistics_{ *this }, weather_viewer_current_{ *this }
     {
     }
 
@@ -24,7 +26,6 @@ namespace WeatherStation
         history_.emplace_back(record);
     }
 
-	/*
     WeatherViewer::Statistics Station::getWeatherViewerStatistics() const
     {
         return weather_viewer_statistics_;
@@ -34,13 +35,13 @@ namespace WeatherStation
     {
         return weather_viewer_current_;
     }
-	*/
+
     Temperature Station::getTemperature() const
     {
-        auto const result{ Temperature(18) }; // TODO: Create a mock temperature reading.
+        auto const result{ Temperature(Temperature::default_value) }; // TODO: Create a mock temperature reading.
         return result;
     }
-	
+
     Humidity Station::getHumidity() const
     {
         auto const result{ Humidity(Humidity::default_value) }; // TODO: Create a mock humidity reading.
