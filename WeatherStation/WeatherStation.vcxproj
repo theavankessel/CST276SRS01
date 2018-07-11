@@ -159,6 +159,7 @@
     <ClInclude Include="subject.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="temperature.h" />
+    <ClInclude Include="weatherStationExport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

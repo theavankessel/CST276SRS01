@@ -21,8 +21,16 @@ namespace WeatherViewer
         return os;
     }
 
-    Current::Current(WeatherStation::Station const &station): station_{ station }
+	void Current::Update()
+	{
+		temperature_ = station_.getTemperature();
+		humidity_ = station_.getHumidity();
+		pressure_ = station_.getPressure();
+	}
+
+	Current::Current(WeatherStation::Station& station): station_{ station }
     {
+		station_.Attach(*this);
     }
 
     WeatherStation::Station const& Current::getStation() const

@@ -1,9 +1,10 @@
 #ifndef WEATHER_STATION_TEMPERATURE_H
 #define WEATHER_STATION_TEMPERATURE_H
+#include "weatherStationExport.h"
 
 namespace WeatherStation
 {
-    class Temperature
+    class WEATHERSTATION_API Temperature
     {
     public:
         using value_type = int; // Celsius
@@ -12,7 +13,7 @@ namespace WeatherStation
         static auto constexpr absolute_zero{ -273 }; // -273.15 rounded.
 
     public:
-        static auto constexpr default_value{ absolute_zero - 1 };
+        static value_type constexpr default_value{ absolute_zero - 1 };
 
     private:
         value_type value_{ default_value };

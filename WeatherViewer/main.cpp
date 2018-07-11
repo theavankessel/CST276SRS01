@@ -4,6 +4,8 @@
 #include <chrono>
 #include <thread>
 #include "station.h"
+#include "current.h"
+#include "statistics.h"
 
 int main()
 {
@@ -20,10 +22,13 @@ int main()
         weather_station.measure();
     }
 
-    /*std::cout <<
-        "Average: " << weather_station.getWeatherViewerStatistics() << "\n" <<
-        "Current: " << weather_station.getWeatherViewerCurrent()    << "\n" <<
-        std::endl;*/
+	WeatherViewer::Current current(weather_station);
+	WeatherViewer::Statistics statistics(weather_station);
+
+    std::cout <<
+        "Average: " << statistics << "\n" <<
+        "Current: " << current << "\n" <<
+        std::endl;
 
     return 0;
 }

@@ -1,17 +1,19 @@
 #ifndef WEATHER_STATION_HUMIDITY_H
 #define WEATHER_STATION_HUMIDITY_H
 
+#include "weatherStationExport.h"
+
 namespace WeatherStation
 {
-    class Humidity
+    class  WEATHERSTATION_API Humidity
     {
     public:
         using value_type = int; // percent [0, 100]
 
-        static auto constexpr default_value{ -1 };
+        static value_type constexpr default_value{ -1 };
 
     private:
-        value_type const value_{ default_value };
+        value_type value_{ default_value };
 
     public:
         explicit Humidity(value_type const value);

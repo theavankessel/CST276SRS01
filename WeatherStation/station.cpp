@@ -1,11 +1,12 @@
 #include "stdafx.h"
+#include "station.h"
 #include <cassert>
 #include <limits>
 #include "gsl.h"
 #include "temperature.h"
 #include "humidity.h"
 #include "pressure.h"
-#include "station.h"
+
 
 namespace WeatherStation
 {
@@ -14,14 +15,50 @@ namespace WeatherStation
     }
 
     void Station::measure()
-    {
-        Temperature const temperature{ getTemperature() };
-        Humidity const humidity{ getHumidity() };
-        Pressure const pressure{ getPressure() };
+    {      
+		auto const& now{ std::chrono::system_clock::now() };
 
-        WeatherStation::Record record{ temperature, humidity, pressure };
+		Temperature const previousMeanTemperature{ getMeanTemperature(begin_, now) };
+		Humidity const previousMeanHumidity{ getMeanHumidity(begin_, now) };
+		Pressure const previousMeanPressure{ getMeanPressure(begin_, now) };
 
-        history_.emplace_back(record);
+		auto historySize = history_.size();
+
+		Temperature const temperature{ getTemperature() };
+		Humidity const humidity{ getHumidity() };
+		Pressure const pressure{ getPressure() };
+
+		WeatherStation::Record record{ temperature, humidity, pressure };
+
+		history_.emplace_back(record);
+
+		if (historySize > 0)
+		{
+			auto lastTemperature{ history_[historySize - 1].get().getTemperature().get() };
+			auto lastHumidity{ history_[historySize - 1].get().getHumidity().get() };
+			auto lastPressure{ history_[historySize - 1].get().getPressure() };
+
+			auto const& current{ std::chrono::system_clock::now() };
+
+			Temperature const meanTemperature{ getMeanTemperature(begin_, current) };
+			Humidity const meanHumidity{ getMeanHumidity(begin_, current) };
+			Pressure const meanPressure{ getMeanPressure(begin_, current) };
+
+			if 
+			(
+				lastTemperature != temperature.get() || lastHumidity != humidity.get() || lastPressure != pressure ||
+				previousMeanTemperature.get() != meanTemperature.get() || previousMeanHumidity.get() != meanHumidity.get() || 
+				previousMeanPressure != meanPressure
+			)
+			{
+				Notify();
+			}
+		}
+		else 
+		{
+			Notify();
+		}
+
     }
 
 	/*
@@ -64,10 +101,10 @@ namespace WeatherStation
         auto period_start{ t0 };
         for (auto const& weather_record: history_)
         {
-            auto const record_timepoint{ weather_record.getTimepoint() };
+            auto const record_timepoint{ weather_record.get().getTimepoint() };
             if (record_timepoint >= period_start && record_timepoint < t1)
             {
-                auto const value{ weather_record.getTemperature() };
+                auto const value{ weather_record.get().getTemperature() };
 
                 if (value.is_good())
                 {
@@ -115,10 +152,10 @@ namespace WeatherStation
         auto period_start{ t0 };
         for (auto const& weather_record: history_)
         {
-            auto const record_timepoint{ weather_record.getTimepoint() };
+            auto const record_timepoint{ weather_record.get().getTimepoint() };
             if (record_timepoint >= period_start && record_timepoint < t1)
             {
-                auto const value{ weather_record.getHumidity() };
+                auto const value{ weather_record.get().getHumidity() };
 
                 if (value.is_good())
                 {
@@ -166,10 +203,10 @@ namespace WeatherStation
         auto period_start{ t0 };
         for (auto const& weather_record: history_)
         {
-            auto const record_timepoint{ weather_record.getTimepoint() };
+            auto const record_timepoint{ weather_record.get().getTimepoint() };
             if (record_timepoint >= period_start && record_timepoint < t1)
             {
-                auto const value{ weather_record.getPressure() };
+                auto const value{ weather_record.get().getPressure() };
 
                 if (value.is_good())
                 {

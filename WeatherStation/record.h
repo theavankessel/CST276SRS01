@@ -17,6 +17,7 @@ namespace WeatherStation
         Pressure const pressure_;
 
     public:
+		//Record() = default;
         Record(Temperature const temperature, Humidity const humidity, Pressure const pressure);
 
         std::chrono::system_clock::time_point getTimepoint() const;

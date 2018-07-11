@@ -8,16 +8,21 @@
 #include "pressure.h"
 #include "record.h"
 #include "subject.h"
+#include "weatherStationExport.h"
 
 //#include "statistics.h" // TODO: Delete #include.
 //#include "current.h" // TODO: Delete #include.
 
+//WEATHERSTATIONIMP_TEMPLATE template class WEATHERSTATION_API std::vector<std::reference_wrapper<WeatherStation::Record>>;
+
+
 namespace WeatherStation
 {
-    class Station : public Subject // DONE: Make this a ConcreteSubject.
+    class WEATHERSTATION_API Station : public Subject // DONE: Make this a ConcreteSubject.
     {
     private:
-        std::vector<WeatherStation::Record> history_{};
+		std::chrono::system_clock::time_point const begin_{ std::chrono::system_clock::now() };
+        std::vector<std::reference_wrapper <WeatherStation::Record>> history_{};
 
         //WeatherViewer::Current weather_viewer_current_;       // TODO: Remove this ConcreteObserver.
         //WeatherViewer::Statistics weather_viewer_statistics_; // TODO: Remove this ConcreteObserver.

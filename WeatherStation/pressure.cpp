@@ -20,4 +20,16 @@ namespace WeatherStation
         return result;
     }
 
+	bool operator==(const Pressure & lhs, const Pressure & rhs)
+	{
+		const auto result{ abs(lhs.get() - rhs.get()) < 0.00001 };
+		return result;
+	}
+
+	bool operator!=(const Pressure & lhs, const Pressure & rhs)
+	{
+		auto result{ !(lhs == rhs) };
+		return result;
+	}
+
 }

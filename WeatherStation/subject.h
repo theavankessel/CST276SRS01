@@ -1,10 +1,13 @@
 #pragma once
 #include <vector>
 #include <functional>
+#include "weatherStationExport.h"
 
 class Observer;
 
-class Subject
+//WEATHERSTATIONIMP_TEMPLATE template class WEATHERSTATION_API std::vector<std::reference_wrapper<Observer>>;
+
+class  WEATHERSTATION_API Subject
 {
 protected:
 	virtual ~Subject() = 0;
