@@ -2,6 +2,7 @@
 #include "station.h"
 #include <cassert>
 #include <limits>
+#include <random>
 #include "gsl.h"
 #include "temperature.h"
 #include "humidity.h"
@@ -74,18 +75,23 @@ namespace WeatherStation
 	*/
     Temperature Station::getTemperature() const
     {
-        auto const result{ Temperature(18) }; // TODO: Create a mock temperature reading.
+		std::uniform_int_distribution<int> const dist{ 0, 1 };
+		std::random_device rd;
+		std::mt19937 mt{ rd() };
+		auto const delta{ dist(mt) };
+
+        auto const result{ Temperature(18 + delta) }; // TODO: Create a mock temperature reading.
         return result;
     }
 	
     Humidity Station::getHumidity() const
     {
-        auto const result{ Humidity(Humidity::default_value) }; // TODO: Create a mock humidity reading.
+        auto const result{ Humidity(50) }; // TODO: Create a mock humidity reading.
         return result;
     }
 
     Pressure Station::getPressure() const {
-        auto const result{ Pressure(Pressure::default_value) }; // TODO: Create a mock pressure reading.
+        auto const result{ Pressure(29.9213) }; // TODO: Create a mock pressure reading.
         return result;
     }
 
