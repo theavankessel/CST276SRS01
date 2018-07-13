@@ -3,9 +3,7 @@
 #include <functional>
 #include "weatherStationExport.h"
 
-class Observer;
-
-//WEATHERSTATIONIMP_TEMPLATE template class WEATHERSTATION_API std::vector<std::reference_wrapper<Observer>>;
+class Observer; // Don't ned to include observer header file because we just have references(addresses)
 
 class  WEATHERSTATION_API Subject
 {
